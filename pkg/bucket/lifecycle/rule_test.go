@@ -17,10 +17,22 @@
 package lifecycle
 
 import (
+	"bytes"
 	"encoding/xml"
 	"fmt"
 	"testing"
 )
+
+func TestIncompleteUploadMarshal(t *testing.T) {
+	rule := new(Rule)
+	var buf bytes.Buffer
+	enc := xml.NewEncoder(&buf)
+	enc.Indent("", "\t")
+	if err := enc.Encode(rule); err != nil {
+		t.Fatal(err)
+	}
+	t.Log(buf.String())
+}
 
 // TestUnsupportedRules checks if Rule xml with unsuported tags return
 // appropriate errors on parsing
